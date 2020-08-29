@@ -38,3 +38,13 @@
 -   Jika dijalankan mode dev (`npm run dev`), page akan selalu menggunakan SSR.
 -   tiap halaman bisa menggunakan tipe prerendering yang berbeda.
 -   gunakan static generation sebisa mungkin.
+
+### 3.1. Static Generation dan `getStaticProps()`
+
+-   `getStaticProps` merupakan fungsi `async` untuk melakukan pengambilan data dan menyediakannya, sehingga page bisa di-build dengan metode `static generation`. fungsi ini **berjalan server-side**. jadi, tidak akan berada pada bundle js.
+-   `Static Generation` dan `getStaticProps()` tidak cocok untuk halaman yang harus menampilkan data yang harus selalu _up-to-date_.
+-   export `getStaticProps()` hanya boleh dilakukan di halaman.
+
+### 3.2. Server-Side Rendering
+
+-   untuk mengaktifkan penggunaan Server-Side Rendering pada halaman, ganti `getStaticProps()` dengan `getServerSideProps()`.
