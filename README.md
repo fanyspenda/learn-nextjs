@@ -34,7 +34,7 @@
 ## 3. Pre-rendering dan Data Fetching
 
 -   Next.js menerapkan _pre-rendering_ pada semua `pages`.
--   setelah halaman yang sudah di-_pre-render_ dimuat, barulah Next.js menjalankan kode javascript dan membuat halaman menjadi interaktif (konsep SSR).
+-   setelah halaman yang sudah di-_pre-render_ dimuat, barulah Next.js menjalankan kode javascript dan membuat halaman menjadi interaktif (_hydration_).
 
 > **Note:**
 >
@@ -55,11 +55,19 @@
 
 -   `getStaticProps()` merupakan fungsi `async` untuk melakukan pengambilan data dan menyediakannya, sehingga page bisa di-build dengan metode `static generation`. Fungsi ini **berjalan server-side**. jadi, tidak akan berada pada bundle js.
 -   `Static Generation` dan `getStaticProps()` tidak cocok untuk halaman yang harus menampilkan data yang harus selalu _up-to-date_.
--   Export `getStaticProps()` hanya boleh dilakukan di halaman.
+-   Export `getStaticProps()` hanya boleh dilakukan di halaman (bukan component).
+-   `getStaticProps()` harus mereturn objek yang memiliki property `props`.
+-   `getStaticProps()` dapat menerima parameter jika diterapkan pada [halaman _dynamic_](## 4. Dynamic Route). Parameternya adalah nama dari file tersebut. Misal: terdapat halaman dynamic dengan nama `[id].js`, maka parameter yang dimiliki oleh `getStaticProps()` adalah `{id: ...}`.
 
 ### 3.2. Server-Side Rendering
 
 -   Untuk mengaktifkan penggunaan _Server-Side Rendering_ pada halaman, ganti `getStaticProps()` dengan `getServerSideProps()`.
+
+### 3.3. Client-Side Rendering
+
+> Note: ini merupakan hal opsional. Tapi, bagus jika dipelajari.
+
+-   Menampilkan bagian halaman yang tidak membutuhkan data terlebih dahulu. ketika sudah dimuat, barulah memuat data yang diperlukan secara **_client-side_** menggunakan javascript (mirip cara kerja `create-react-app`).
 
 ## 4. Dynamic Route
 
@@ -67,10 +75,12 @@
 -   Berikan tanda `[` dan `]` untuk menandai file sebagai dynamic route. Contoh: `[id].js`.
 -   Pada penggunaan `getStaticPaths()`, nilai yang direturnkan ketika mengakses external data harus berupa _array of object_ dan objeknya harus memiliki property bernama `params`. Kemudian, pada fungsi `getStaticPaths()`, harus mereturnkan array of object tadi dalam sebuah objek dengan property bernama `path`. Contoh:
 
-```javascript
+```js
 return {
 	path: [{ params: "id1" }, { params: "id2" }],
 };
 ```
 
--
+-   Perbedaan penulisan `<Link>` seperti menjadi `<Link href="/alamat/[dynamicName]" as="/alamat/urlAslinya">`
+-   Pada Development, `getStaticPaths()` dijalankan setiap requests.
+-   Pada Production,`getStaticPaths()` dijalankan setiap ketika build-time.
