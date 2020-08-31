@@ -57,7 +57,7 @@
 -   `Static Generation` dan `getStaticProps()` tidak cocok untuk halaman yang harus menampilkan data yang harus selalu _up-to-date_.
 -   Export `getStaticProps()` hanya boleh dilakukan di halaman (bukan component).
 -   `getStaticProps()` harus mereturn objek yang memiliki property `props`.
--   `getStaticProps()` dapat menerima parameter jika diterapkan pada [halaman _dynamic_](##4.-Dynamic-Route). Parameternya adalah nama dari file tersebut. Misal: terdapat halaman dynamic dengan nama `[id].js`, maka parameter yang dimiliki oleh `getStaticProps()` adalah `{id: ...}`.
+-   `getStaticProps()` dapat menerima parameter jika diterapkan pada [halaman _dynamic_](#4.-Dynamic-Route). Parameternya adalah nama dari file tersebut. Misal: terdapat halaman dynamic dengan nama `[id].js`, maka parameter yang dimiliki oleh `getStaticProps()` adalah `{id: ...}`.
 
 ### 3.2. Server-Side Rendering
 
@@ -65,7 +65,7 @@
 
 ### 3.3. Client-Side Rendering
 
-> Note: ini merupakan hal opsional. Tapi, bagus jika dipelajari.
+> **Note:** bagian ini merupakan hal opsional. Tapi, bagus jika dipelajari.
 
 -   Menampilkan bagian halaman yang tidak membutuhkan data terlebih dahulu. ketika sudah dimuat, barulah memuat data yang diperlukan secara **_client-side_** menggunakan javascript (mirip cara kerja `create-react-app`).
 
@@ -73,15 +73,42 @@
 
 -   **Dynamic route** adalah route yang tidak tentu. Contoh: `posts/:id`. `id` dapat berupa angka tertentu dan berbeda setiap _post_-nya.
 -   Berikan tanda `[` dan `]` untuk menandai file sebagai dynamic route. Contoh: `[id].js`.
--   Pada penggunaan `getStaticPaths()`, nilai yang direturnkan ketika mengakses external data harus berupa _array of object_ dan objeknya harus memiliki property bernama `params`. Kemudian, pada fungsi `getStaticPaths()`, harus mereturnkan array of object tadi dalam sebuah objek dengan property bernama `path`. Contoh:
+-   Pada penggunaan `getStaticPaths()`, nilai yang direturnkan ketika mengakses external data harus berupa _array of object_ dan objeknya harus memiliki property bernama `params`. Contoh:
+
+```js
+return [
+	{
+		params: { id: "id1" },
+	},
+	{
+		params: { id: "id2" },
+	},
+];
+```
+
+-   Pada fungsi `getStaticPaths()`, harus sebuah objek dengan property bernama `paths` untuk menjadi nama alamatnya. Contoh:
 
 ```js
 return {
-	path: [{ params: "id1" }, { params: "id2" }],
+	paths: [
+		{
+			params: { id: "id1" },
+		},
+		{
+			params: { id: "id2" },
+		},
+	],
+	fallback: false,
 };
 ```
+
+> **Note:**
+> property `fallback`, jika bernilai `false`, ketika url yang tidak memiliki halaman diakses, akan mereturn 404 Page Not Found.
+> Jika bernilai `true`, path yang direturnkan akan digenerate di build time dan halaman 404 tidak ditampilkan, tapi Next.js akan men-generate halaman versi "fallback".
 
 -   Perbedaan penulisan `<Link>` seperti menjadi `<Link href="/alamat/[dynamicName]" as="/alamat/urlAslinya">`
 -   Pada Development, `getStaticPaths()` dijalankan setiap requests.
 -   Pada Production,`getStaticPaths()` dijalankan setiap ketika build-time.
--
+-   Mengambil semua routes dapat dilakukan dengan cara `[...]`. Contoh: [...id] akan mengambil route dari `id/nama`, `id/teman/tahun`, dll.
+-   Dengan begitu, pada `getStaticPaths()`, harus mereturn id berupa array. misal: `id: ["id1", "teman", "tahun"]`.
+-   Untuk mengkustom halaman 404, buat file `404.js` di folder `pages/`.
