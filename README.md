@@ -57,7 +57,7 @@
 -   `Static Generation` dan `getStaticProps()` tidak cocok untuk halaman yang harus menampilkan data yang harus selalu _up-to-date_.
 -   Export `getStaticProps()` hanya boleh dilakukan di halaman (bukan component).
 -   `getStaticProps()` harus mereturn objek yang memiliki property `props`.
--   `getStaticProps()` dapat menerima parameter jika diterapkan pada [halaman _dynamic_](## 4. Dynamic Route). Parameternya adalah nama dari file tersebut. Misal: terdapat halaman dynamic dengan nama `[id].js`, maka parameter yang dimiliki oleh `getStaticProps()` adalah `{id: ...}`.
+-   `getStaticProps()` dapat menerima parameter jika diterapkan pada [halaman _dynamic_](##4.-Dynamic-Route). Parameternya adalah nama dari file tersebut. Misal: terdapat halaman dynamic dengan nama `[id].js`, maka parameter yang dimiliki oleh `getStaticProps()` adalah `{id: ...}`.
 
 ### 3.2. Server-Side Rendering
 
@@ -84,3 +84,4 @@ return {
 -   Perbedaan penulisan `<Link>` seperti menjadi `<Link href="/alamat/[dynamicName]" as="/alamat/urlAslinya">`
 -   Pada Development, `getStaticPaths()` dijalankan setiap requests.
 -   Pada Production,`getStaticPaths()` dijalankan setiap ketika build-time.
+-
