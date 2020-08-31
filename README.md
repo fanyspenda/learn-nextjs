@@ -57,7 +57,7 @@
 -   `Static Generation` dan `getStaticProps()` tidak cocok untuk halaman yang harus menampilkan data yang harus selalu _up-to-date_.
 -   Export `getStaticProps()` hanya boleh dilakukan di halaman (bukan component).
 -   `getStaticProps()` harus mereturn objek yang memiliki property `props`.
--   `getStaticProps()` dapat menerima parameter jika diterapkan pada [halaman _dynamic_](#4.-Dynamic-Route). Parameternya adalah nama dari file tersebut. Misal: terdapat halaman dynamic dengan nama `[id].js`, maka parameter yang dimiliki oleh `getStaticProps()` adalah `{id: ...}`.
+-   `getStaticProps()` dapat menerima parameter jika diterapkan pada [halaman _dynamic_](#4-dynamic-route). Parameternya adalah nama dari file tersebut. Misal: terdapat halaman dynamic dengan nama `[id].js`, maka parameter yang dimiliki oleh `getStaticProps()` adalah `{id: ...}`.
 
 ### 3.2. Server-Side Rendering
 
@@ -112,3 +112,19 @@ return {
 -   Mengambil semua routes dapat dilakukan dengan cara `[...]`. Contoh: [...id] akan mengambil route dari `id/nama`, `id/teman/tahun`, dll.
 -   Dengan begitu, pada `getStaticPaths()`, harus mereturn id berupa array. misal: `id: ["id1", "teman", "tahun"]`.
 -   Untuk mengkustom halaman 404, buat file `404.js` di folder `pages/`.
+
+## 5. API Routes
+
+-   Next.js dapat membuat API-nya sendiri dengan membuat folder `api` di dalam folder `pages/`.
+-   Jangan fetching API Next.js dari `getStaticProps()` dan `getStaticPaths()`.
+-   API Routes juga dapat dibuat menjadi dinamis seperti dynamic routes.
+
+## 6. Production
+
+-   Next.js merekomendasikan untuk mengembangkan project Next.js menggunakan konsep **DPS**. Yaitu:
+    -   Develop: Kembangkan aplikasi,
+    -   Preview: Push project ke github dan lihat hasil dari pengembangan/perubahan di Vercel,
+    -   Ship: `Merge Pull Request` ke `master` untuk masuk ke _production_.
+
+> **Note:**
+> Untuk pengembangan Next.js dengan menggunakan bahasa `TypeScript`, setup dan beberapa hal mengenai typing dapat dilihat [di sini](https://nextjs.org/learn/excel/typescript).
